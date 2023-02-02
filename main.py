@@ -4,7 +4,9 @@ def FENParser(fenparserIn, boardIn):
     index = 0
     index2 = 0
     boardIn = np.full((8, 8), '.')
-    for x in fenparserIn:
+    parser = fenparserIn.split(" ")
+    options = parser[1::]
+    for x in parser[0]:
         match x:
             case "r":
                 boardIn[index2, index] = x
@@ -63,7 +65,7 @@ def FENParser(fenparserIn, boardIn):
                 index += 8
         #print(x, index, index2)
 
-    return boardIn
+    return boardIn, options
 
 
 name = "Cultist"
@@ -74,7 +76,15 @@ board = np.full((8, 8), '.')
 
 FENInput = input("Enter a FEN string for parsing:")
 
-board = FENParser(FENInput, board)
+board, options = FENParser(FENInput, board)
+
+turnBW = options[0]
+castling = options[1]
+enPassantSquare = options[2]
+halfMoveClock = int(options[3])
+fullMove = int(options[4])
 
 print(board)
+print("Side to move: ", turnBW.upper())
+print("Move number: ", fullMove)
 
