@@ -25,5 +25,5 @@ print("Side to move: ", turnBW.upper())
 print("Move number: ", fullMove)
 
 currScore = ScoreAnalyzer.Analyze(board)
-print("Current analysis: ", currScore)
+print("Current analysis: ", round(currScore, 3))
 
