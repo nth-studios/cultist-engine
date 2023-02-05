@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def moveAnalyzer(boardIn):
     protected = np.full((8, 8), 0.0)
     attacked = np.full((8, 8), 0.0)
@@ -8,51 +9,115 @@ def moveAnalyzer(boardIn):
     for y in range(8):
         for x in range(8):
             checkSquare = boardIn[y, x]
+            wBo = whiteBlack(checkSquare)
             match checkSquare:
-                case "r":
-                    wBo = whiteBlack(checkSquare)
-                    if (y < 7):
+                case "q" | "Q":
+                    if y < 7 and x < 7:
+                        xn = x + 1
+                        yn = y + 1
+                        while xn < 8 and yn < 8:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn += 1
+                            yn += 1
+                    if y > 0 and x < 7:
+                        xn = x + 1
+                        yn = y - 1
+                        while xn < 8 and yn >= 0:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn += 1
+                            yn -= 1
+                    if y < 7 and x > 0:
+                        xn = x - 1
+                        yn = y + 1
+                        while xn >= 0 and yn < 8:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn -= 1
+                            yn += 1
+                    if y > 0 and x > 0:
+                        xn = x - 1
+                        yn = y - 1
+                        while xn >= 0 and yn >= 0:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn -= 1
+                            yn -= 1
+                    if y < 7:
                         for i in range(y + 1, 8, 1):
                             wBn = whiteBlack(boardIn[i, x])
-                            if wBn==-1*wBo:
+                            if wBn == -1 * wBo:
                                 moveListB.append(convertCoordsToNotation(x, y, x, i))
-                                attacked[y, x] += protectionMultiplier(boardIn[i, x])
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
                                 break
-                            elif wBn==wBo:
+                            elif wBn == wBo:
                                 protected[y, x] += protectionMultiplier(boardIn[i, x])
                                 break
                             else:
                                 moveListB.append(convertCoordsToNotation(x, y, x, i))
-                    if (y > 0):
+                    if y > 0:
                         for i in range(y - 1, -1, -1):
                             wBn = whiteBlack(boardIn[i, x])
                             if wBn == -1 * wBo:
                                 moveListB.append(convertCoordsToNotation(x, y, x, i))
-                                attacked[y, x] += protectionMultiplier(boardIn[i, x])
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
                                 break
                             elif wBn == wBo:
                                 protected[y, x] += protectionMultiplier(boardIn[i, x])
                                 break
                             else:
                                 moveListB.append(convertCoordsToNotation(x, y, x, i))
-                    if (x < 7):
+                    if x < 7:
                         for i in range(x + 1, 8, 1):
                             wBn = whiteBlack(boardIn[y, i])
                             if wBn == -1 * wBo:
                                 moveListB.append(convertCoordsToNotation(x, y, i, y))
-                                attacked[y, x] += protectionMultiplier(boardIn[y, i])
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
                                 break
                             elif wBn == wBo:
-                                protected[y, x] += protectionMultiplier(boardIn[y, i])
+                                protected[y, i] += protectionMultiplier(boardIn[y, i])
                                 break
                             else:
                                 moveListB.append(convertCoordsToNotation(x, y, i, y))
-                    if (x > 0):
+                    if x > 0:
                         for i in range(x - 1, -1, -1):
                             wBn = whiteBlack(boardIn[y, i])
                             if wBn == -1 * wBo:
                                 moveListB.append(convertCoordsToNotation(x, y, i, y))
-                                attacked[y, x] += protectionMultiplier(boardIn[y, i])
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
                                 break
                             elif wBn == wBo:
                                 protected[y, x] += protectionMultiplier(boardIn[y, i])
@@ -60,55 +125,162 @@ def moveAnalyzer(boardIn):
                             else:
                                 moveListB.append(convertCoordsToNotation(x, y, i, y))
 
-                # case "n":
-                # case "b":
-                # case "q":
-                # case "k":
-                case "p":
-                    wBo = whiteBlack(checkSquare)
+                case "b" | "B":
+                    if y < 7 and x < 7:
+                        xn = x + 1
+                        yn = y + 1
+                        while xn < 8 and yn < 8:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn += 1
+                            yn += 1
+                    if y > 0 and x < 7:
+                        xn = x + 1
+                        yn = y - 1
+                        while xn < 8 and yn >= 0:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn += 1
+                            yn -= 1
+                    if y < 7 and x > 0:
+                        xn = x - 1
+                        yn = y + 1
+                        while xn >= 0 and yn < 8:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn -= 1
+                            yn += 1
+                    if y > 0 and x > 0:
+                        xn = x - 1
+                        yn = y - 1
+                        while xn >= 0 and yn >= 0:
+                            wBn = whiteBlack(boardIn[yn, xn])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[yn, xn])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, xn, yn))
+                            xn -= 1
+                            yn -= 1
+
+                case "r" | "R":
                     if y < 7:
-                        if whiteBlack(boardIn[y + 1, x])==0:
-                            moveListB.append(convertCoordsToNotation(x, y, x, y+1))
-                        if x>0:
+                        for i in range(y + 1, 8, 1):
+                            wBn = whiteBlack(boardIn[i, x])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, x, i))
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[i, x])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, x, i))
+                    if y > 0:
+                        for i in range(y - 1, -1, -1):
+                            wBn = whiteBlack(boardIn[i, x])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, x, i))
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[i, x])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, x, i))
+                    if x < 7:
+                        for i in range(x + 1, 8, 1):
+                            wBn = whiteBlack(boardIn[y, i])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, i, y))
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
+                                break
+                            elif wBn == wBo:
+                                protected[y, i] += protectionMultiplier(boardIn[y, i])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, i, y))
+                    if x > 0:
+                        for i in range(x - 1, -1, -1):
+                            wBn = whiteBlack(boardIn[y, i])
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, i, y))
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
+                                break
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[y, i])
+                                break
+                            else:
+                                moveListB.append(convertCoordsToNotation(x, y, i, y))
+
+                case "p":
+                    if y < 7:
+                        if whiteBlack(boardIn[y + 1, x]) == 0:
+                            moveListB.append(convertCoordsToNotation(x, y, x, y + 1))
+                        if x > 0:
                             wBn = whiteBlack(boardIn[y + 1, x - 1])
-                            if wBn==-1*wBo:
-                                moveListB.append(convertCoordsToNotation(x, y, x-1, y+1))
-                                attacked[y, x] += protectionMultiplier(boardIn[y+1, x-1])
-                            elif wBn==wBo:
-                                protected[y, x] += protectionMultiplier(boardIn[y+1, x-1])
-                        if x<7:
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, x - 1, y + 1))
+                                attacked[y + 1, x - 1] += attackMultiplier(boardIn[y + 1, x - 1])
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[y + 1, x - 1])
+                        if x < 7:
                             wBn = whiteBlack(boardIn[y + 1, x + 1])
-                            if wBn==-1*wBo:
-                                moveListB.append(convertCoordsToNotation(x, y, x+1, y+1))
-                                attacked[y, x] += protectionMultiplier(boardIn[y+1, x+1])
-                            elif wBn==wBo:
-                                protected[y, x] += protectionMultiplier(boardIn[y+1, x+1])
-                # case "R":
-                # case "N":
-                # case "B":
-                # case "Q":
-                # case "K":
+                            if wBn == -1 * wBo:
+                                moveListB.append(convertCoordsToNotation(x, y, x + 1, y + 1))
+                                attacked[y + 1, x + 1] += attackMultiplier(boardIn[y + 1, x + 1])
+                            elif wBn == wBo:
+                                protected[y, x] += protectionMultiplier(boardIn[y + 1, x + 1])
+
                 case "P":
-                    wBo = whiteBlack(checkSquare)
                     if y > 0:
                         if whiteBlack(boardIn[y - 1, x]) == 0:
                             moveListW.append(convertCoordsToNotation(x, y, x, y - 1))
                         if x > 0:
                             wB = whiteBlack(boardIn[y - 1, x - 1])
-                            if wB == -1*wBo:
+                            if wB == -1 * wBo:
                                 moveListW.append(convertCoordsToNotation(x, y, x - 1, y - 1))
-                                attacked[y, x] += protectionMultiplier(boardIn[y - 1, x - 1])
+                                attacked[y - 1, x - 1] += attackMultiplier(boardIn[y - 1, x - 1])
                             elif wB == wBo:
                                 protected[y, x] += protectionMultiplier(boardIn[y - 1, x - 1])
                         if x < 7:
                             wB = whiteBlack(boardIn[y - 1, x + 1])
-                            if wB == -1*wBo:
+                            if wB == -1 * wBo:
                                 moveListW.append(convertCoordsToNotation(x, y, x + 1, y - 1))
-                                attacked[y, x] += protectionMultiplier(boardIn[y - 1, x + 1])
+                                attacked[y - 1, x + 1] += attackMultiplier(boardIn[y - 1, x + 1])
                             elif wB == wBo:
                                 protected[y, x] += protectionMultiplier(boardIn[y - 1, x + 1])
 
     return moveListW, moveListB, attacked, protected
+
 
 def scoreAnalyzer(boardIn, attackedIn, protectedIn, numW, numB):
     pawnProgressionMultiplier = 0.1
@@ -116,44 +288,47 @@ def scoreAnalyzer(boardIn, attackedIn, protectedIn, numW, numB):
     for y in range(8):
         for x in range(8):
             checkSquare = boardIn[y, x]
-            score += checkProtected(protectedIn, x, y)
             match checkSquare:
                 case "r":
-                    score -= 5
+                    score -= (5 - attackedIn[y, x] + protectedIn[y, x])
                 case "n":
-                    score -= 4
+                    score -= (4 - attackedIn[y, x] + protectedIn[y, x])
                 case "b":
-                    score -= 4
+                    score -= (4 - attackedIn[y, x] + protectedIn[y, x])
                 case "q":
-                    score -= 10
+                    score -= (10 - attackedIn[y, x] + protectedIn[y, x])
                 case "k":
-                    score += 0
+                    score += (0 - attackedIn[y, x] + protectedIn[y, x])
                 case "p":
-                    score -= 1 + pawnProgressionMultiplier * y
+                    score -= (1 + pawnProgressionMultiplier * y - attackedIn[y, x] + protectedIn[y, x])
                 case "R":
-                    score += 5
+                    score += (5 - attackedIn[y, x] + protectedIn[y, x])
                 case "N":
-                    score += 4
+                    score += (4 - attackedIn[y, x] + protectedIn[y, x])
                 case "B":
-                    score += 4
+                    score += (4 - attackedIn[y, x] + protectedIn[y, x])
                 case "Q":
-                    score += 10
+                    score += (10 - attackedIn[y, x] + protectedIn[y, x])
                 case "K":
-                    score += 0
+                    score += (0 - attackedIn[y, x] + protectedIn[y, x])
                 case "P":
-                    score += 1 + pawnProgressionMultiplier * (7 - y)
+                    score += (1 + pawnProgressionMultiplier * (7 - y) - attackedIn[y, x] + protectedIn[y, x])
+    return score
+
 
 def checkProtected(protectedIn, x, y):
     score = 0
     score += protectionMultiplier(protectedIn[y + 1, x - 1])
     return score
 
+
 def whiteBlack(x):
-    if(x=="."):
+    if x == ".":
         return 0
-    if(x.isupper()):
+    if x.isupper():
         return 1
     return -1
+
 
 def protectionMultiplier(x):
     multiplier = 0
@@ -172,6 +347,25 @@ def protectionMultiplier(x):
             multiplier = 0.1
     return multiplier
 
+
+def attackMultiplier(x):
+    multiplier = 0
+    match x.lower():
+        case "r":
+            multiplier = 4
+        case "n":
+            multiplier = 3
+        case "b":
+            multiplier = 3
+        case "q":
+            multiplier = 10
+        case "k":
+            multiplier = 10
+        case "p":
+            multiplier = 0.1
+    return multiplier
+
+
 def convertCoordsToNotation(xo, yo, xn, yn):
-    notation=str(chr(xo+97)) + str((8-yo)) + str(chr(xn+97)) + str((8-yn))
+    notation = str(chr(xo + 97)) + str((8 - yo)) + str(chr(xn + 97)) + str((8 - yn))
     return notation
