@@ -1,6 +1,6 @@
 import numpy as np
 import FEN
-import ScoreAnalyzer
+import GameAnalyzer
 
 
 
@@ -24,6 +24,6 @@ print(board)
 print("Side to move: ", turnBW.upper())
 print("Move number: ", fullMove)
 
-currScore = ScoreAnalyzer.Analyze(board)
+currScore = GameAnalyzer.Analyze(board)
 print("Current analysis: ", round(currScore, 3))
 
