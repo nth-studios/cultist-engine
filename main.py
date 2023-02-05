@@ -2,8 +2,6 @@ import numpy as np
 import FEN
 import GameAnalyzer
 
-
-
 name = "Cultist"
 version = "0.0.1"
 print("Welcome to the basic " + name + " engine platform, v" + version + ".\n\n")
@@ -24,6 +22,17 @@ print(board)
 print("Side to move: ", turnBW.upper())
 print("Move number: ", fullMove)
 
-currScore = GameAnalyzer.Analyze(board)
+moveListW, moveListB, attacked, protected = GameAnalyzer.moveAnalyzer(board)
+
+print("\nWhite moves:")
+print(moveListW)
+print("\nBlack moves:")
+print(moveListB)
+print("\n\nProtect Matrix")
+print(protected)
+print("\n\nAttack Matrix")
+print(attacked)
+
+currScore = GameAnalyzer.scoreAnalyzer(board, attacked, protected, len(moveListW), len(moveListB))
 print("Current analysis: ", round(currScore, 3))
 
