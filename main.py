@@ -22,7 +22,14 @@ print(board)
 print("Side to move: ", turnBW.upper())
 print("Move number: ", fullMove)
 
-moveListW, moveListB, attacked, protected = GameAnalyzer.moveAnalyzer(board)
+moveList, attacked, protected = GameAnalyzer.moveAnalyzer(board)
+moveListW = []
+moveListB = []
+for i in moveList:
+    if i.wB == 1:
+        moveListW.append(i.__str__())
+    else:
+        moveListB.append(i.__str__())
 
 print("\nWhite moves:")
 print(moveListW)
@@ -33,6 +40,5 @@ print(protected)
 print("\n\nAttack Matrix")
 print(attacked)
 
-currScore = GameAnalyzer.scoreAnalyzer(board, attacked, protected, len(moveListW), len(moveListB))
+currScore = GameAnalyzer.scoreAnalyzer(board, attacked, protected, moveList)
 print("Current analysis: ", round(currScore, 3))
-
