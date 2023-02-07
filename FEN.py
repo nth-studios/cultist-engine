@@ -1,4 +1,6 @@
 import numpy as np
+
+
 def FENParser(fenparserIn, boardIn):
     index = 0
     index2 = 0

@@ -42,3 +42,6 @@ print(attacked)
 
 currScore = GameAnalyzer.scoreAnalyzer(board, attacked, protected, moveList)
 print("Current analysis: ", round(currScore, 3))
+
+for moveCheck in moveList:
+    print(moveCheck)

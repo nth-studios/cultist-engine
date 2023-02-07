@@ -2,6 +2,9 @@ import struct
 
 import numpy as np
 
+import GameAnalyzer
+
+
 class Move:
     def __init__(self, xo: int, yo: int, xn: int, yn: int, wB: int):
         self.xo = xo
@@ -121,7 +124,7 @@ def moveAnalyzer(boardIn):
                                 attacked[y, i] += attackMultiplier(boardIn[y, i])
                                 break
                             elif wBn == wBo:
-                                protected[y, i] += protectionMultiplier(boardIn[y, i])
+                                protected[y, x] += protectionMultiplier(boardIn[y, i])
                                 break
                             else:
                                 moveList.append(Move(x, y, i, y, wBo))
@@ -324,7 +327,7 @@ def moveAnalyzer(boardIn):
                                 attacked[y, i] += attackMultiplier(boardIn[y, i])
                                 break
                             elif wBn == wBo:
-                                protected[y, i] += protectionMultiplier(boardIn[y, i])
+                                protected[y, x] += protectionMultiplier(boardIn[y, i])
                                 break
                             else:
                                 moveList.append(Move(x, y, i, y, wBo))
@@ -435,7 +438,7 @@ def scoreAnalyzer(boardIn, attackedIn, protectedIn, moveListIn):
                 case "q":
                     score -= (10 - attackedIn[y, x] + protectedIn[y, x])
                 case "k":
-                    score += (0 - attackedIn[y, x] + protectedIn[y, x])
+                    score -= (0 - attackedIn[y, x] + protectedIn[y, x])
                 case "p":
                     score -= (1 + pawnProgressionMultiplier * y - attackedIn[y, x] + protectedIn[y, x])
                 case "R":
@@ -471,15 +474,15 @@ def protectionMultiplier(x):
     multiplier = 0
     match x.lower():
         case "r":
-            multiplier = 0.5
+            multiplier = 1
         case "n":
-            multiplier = 0.3
+            multiplier = 1
         case "b":
-            multiplier = 0.3
+            multiplier = 1
         case "q":
-            multiplier = 2
+            multiplier = 0.5
         case "k":
-            multiplier = 10
+            multiplier = 0
         case "p":
             multiplier = 0.1
     return multiplier
@@ -489,15 +492,15 @@ def attackMultiplier(x):
     multiplier = 0
     match x.lower():
         case "r":
-            multiplier = 4
+            multiplier = 3
         case "n":
-            multiplier = 3
+            multiplier = 2
         case "b":
-            multiplier = 3
+            multiplier = 2
         case "q":
-            multiplier = 10
+            multiplier = 5
         case "k":
-            multiplier = 10
+            multiplier = 5
         case "p":
             multiplier = 0.1
     return multiplier
@@ -506,3 +509,22 @@ def attackMultiplier(x):
 def convertCoordsToNotation(xo, yo, xn, yn):
     notation = str(chr(xo + 97)) + str((8 - yo)) + str(chr(xn + 97)) + str((8 - yn))
     return notation
+
+
+def convertNotationToCoords(notation):
+    temp = []
+    for i in notation:
+        temp.append(i)
+    xo = ord(temp[0])-97
+    yo = 8-int(temp[1])
+    xn = ord(temp[2])-97
+    yn = 8-int(temp[3])
+
+    return [xo, yo, xn, yn]
+
+
+def alterBoardForMove(moveIn: GameAnalyzer.Move, boardIn):
+    boardOut = boardIn
+    boardOut[moveIn.yn, moveIn.xn] = boardOut[moveIn.yo, moveIn.xo]
+    boardOut[moveIn.yo, moveIn.xo] = "."
+    return boardOut
