@@ -1,6 +1,8 @@
 import numpy as np
 
 
+STARTPOS = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 def FENParser(fenparserIn, boardIn):
     index = 0
     index2 = 0
