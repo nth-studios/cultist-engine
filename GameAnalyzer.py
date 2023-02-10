@@ -5,6 +5,8 @@ WHITE = 1
 EMPTY = 0
 BLACK = -1
 
+STARTPOS = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 
 class Move:
     def __init__(self, xo: int, yo: int, xn: int, yn: int, wB: int):
@@ -456,6 +458,10 @@ def moveAnalyzer(boardIn):
                                 protected[y + 1, x + 1] += protectionMultiplier(boardIn[y + 1, x + 1])
                                 protecting[y, x] += protectionMultiplier(boardIn[y + 1, x + 1])
 
+                    if y == 1:
+                        if whiteBlack(boardIn[y + 1, x]) == 0 and whiteBlack(boardIn[y + 2, x]) == 0:
+                            moveList.append(Move(x, y, x, y + 2, wBo))
+
                 case "P":
                     if y > 0:
                         if whiteBlack(boardIn[y - 1, x]) == 0:
@@ -478,6 +484,10 @@ def moveAnalyzer(boardIn):
                             elif wB == wBo:
                                 protected[y - 1, x + 1] += protectionMultiplier(boardIn[y - 1, x + 1])
                                 protecting[y, x] += protectionMultiplier(boardIn[y - 1, x + 1])
+                    if y == 6:
+                        if whiteBlack(boardIn[y - 1, x]) == 0 and whiteBlack(boardIn[y - 2, x]) == 0:
+                            moveList.append(Move(x, y, x, y - 2, wBo))
+
 
     return moveList, [attacked, attacking, protected, protecting]
 
