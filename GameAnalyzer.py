@@ -500,32 +500,14 @@ def scoreAnalyzer(boardIn, APIn, moveListIn):
         for x in range(8):
             APCheck = checkAP(APIn, x, y)
             checkSquare = boardIn[y, x]
-            score += (whiteBlack(checkSquare) * APModifierLogic(APCheck))
+            score += (whiteBlack(checkSquare) * APModifierLogic(APCheck) + whiteBlack(checkSquare) * valueMultiplier(checkSquare))
             match checkSquare:
-                case "r":
-                    score -= 5
-                case "n":
-                    score -= 4
-                case "b":
-                    score -= 4
-                case "q":
-                    score -= 10
                 case "k":
-                    score -= 0
                     if APCheck[0] != 0:
                         blackChecked = True
                 case "p":
                     score -= 1 * (pawnProgressionModifier*y)
-                case "R":
-                    score += 5
-                case "N":
-                    score += 4
-                case "B":
-                    score += 4
-                case "Q":
-                    score += 10
                 case "K":
-                    score += 0
                     if APCheck[0] != 0:
                         whiteChecked = True
                 case "P":
@@ -553,12 +535,14 @@ def APModifierLogic(APin):  # 0-Attacked, 1-Attacking, 2-Protected, 3-Protecting
     isolationAttackModifier = 2
     isolationDefendModifier = 0.5
 
-    if attacking != 0 and attacked != 0:
+    if attacking != 0 and attacked != 0 and protected != 0:
         score += protected + protecting + attacking - attacked
     elif attacking != 0 and attacked == 0:
         score += protected + protecting + attacking*isolationAttackModifier
+    elif attacking != 0 and attacked != 0 and protected == 0:
+        score -= attacking + attacked - protecting
     elif attacking != 0:
-        score += protected + protecting + attacking
+        score += attacked + protected + protecting
 
     if attacked != 0 and protected == 0:
         score -= attacked*isolationAttackModifier
@@ -610,6 +594,24 @@ def attackMultiplier(x):
         case "p":
             multiplier = 0.1
     return multiplier
+
+
+def valueMultiplier(x):
+    value = 0
+    match x.lower():
+        case "r":
+            value = 9
+        case "n":
+            value = 6
+        case "b":
+            value = 6
+        case "q":
+            value = 15
+        case "k":
+            value = 15
+        case "p":
+            value = 1
+    return value
 
 
 def convertCoordsToNotation(xo, yo, xn, yn):
