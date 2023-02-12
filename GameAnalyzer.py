@@ -1,10 +1,8 @@
 import numpy as np
 
-
 WHITE = 1
 EMPTY = 0
 BLACK = -1
-
 
 
 class Move:
@@ -166,7 +164,7 @@ def moveAnalyzer(boardIn):
                         yn = y + 1
                         wBn = whiteBlack(boardIn[yn, xn])
                         if wBn == -1 * wBo:
-                            if boardIn[yn, xn] != ("k" or "K"):
+                            if checkKing(xn, yn, boardIn, wBo):
                                 moveList.append(Move(x, y, xn, yn, wBo))
                                 attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
                                 attacking[y, x] += attackMultiplier(boardIn[yn, xn])
@@ -174,95 +172,110 @@ def moveAnalyzer(boardIn):
                             protected[yn, xn] += protectionMultiplier(boardIn[yn, xn])
                             protecting[y, x] += protectionMultiplier(boardIn[yn, xn])
                         else:
-                            moveList.append(Move(x, y, xn, yn, wBo))
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
                     if y > 0 and x < 7:
                         xn = x + 1
                         yn = y - 1
                         wBn = whiteBlack(boardIn[yn, xn])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, xn, yn, wBo))
-                            attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
-                            attacking[y, x] += attackMultiplier(boardIn[yn, xn])
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                attacking[y, x] += attackMultiplier(boardIn[yn, xn])
                         elif wBn == wBo:
                             protected[yn, xn] += protectionMultiplier(boardIn[yn, xn])
                             protecting[y, x] += protectionMultiplier(boardIn[yn, xn])
                         else:
-                            moveList.append(Move(x, y, xn, yn, wBo))
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
                     if y < 7 and x > 0:
                         xn = x - 1
                         yn = y + 1
 
                         wBn = whiteBlack(boardIn[yn, xn])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, xn, yn, wBo))
-                            attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
-                            attacking[y, x] += attackMultiplier(boardIn[yn, xn])
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                attacking[y, x] += attackMultiplier(boardIn[yn, xn])
                         elif wBn == wBo:
                             protected[yn, xn] += protectionMultiplier(boardIn[yn, xn])
                             protecting[y, x] += protectionMultiplier(boardIn[yn, xn])
                         else:
-                            moveList.append(Move(x, y, xn, yn, wBo))
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
                     if y > 0 and x > 0:
                         xn = x - 1
                         yn = y - 1
                         wBn = whiteBlack(boardIn[yn, xn])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, xn, yn, wBo))
-                            attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
-                            attacking[y, x] += attackMultiplier(boardIn[yn, xn])
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                attacking[y, x] += attackMultiplier(boardIn[yn, xn])
                         elif wBn == wBo:
                             protected[yn, xn] += protectionMultiplier(boardIn[yn, xn])
                             protecting[y, x] += protectionMultiplier(boardIn[yn, xn])
                         else:
-                            moveList.append(Move(x, y, xn, yn, wBo))
+                            if checkKing(xn, yn, boardIn, wBo):
+                                moveList.append(Move(x, y, xn, yn, wBo))
                     if y < 7:
                         i = y + 1
                         wBn = whiteBlack(boardIn[i, x])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, x, i, wBo))
-                            attacked[i, x] += attackMultiplier(boardIn[i, x])
-                            attacking[y, x] += attackMultiplier(boardIn[i, x])
+                            if checkKing(x, i, boardIn, wBo):
+                                moveList.append(Move(x, y, x, i, wBo))
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
+                                attacking[y, x] += attackMultiplier(boardIn[i, x])
                         elif wBn == wBo:
                             protected[i, x] += protectionMultiplier(boardIn[i, x])
                             protecting[y, x] += protectionMultiplier(boardIn[i, x])
                         else:
-                            moveList.append(Move(x, y, x, i, wBo))
+                            if checkKing(x, i, boardIn, wBo):
+                                moveList.append(Move(x, y, x, i, wBo))
                     if y > 0:
                         i = y - 1
                         wBn = whiteBlack(boardIn[i, x])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, x, i, wBo))
-                            attacked[i, x] += attackMultiplier(boardIn[i, x])
-                            attacking[y, x] += attackMultiplier(boardIn[i, x])
+                            if checkKing(x, i, boardIn, wBo):
+                                moveList.append(Move(x, y, x, i, wBo))
+                                attacked[i, x] += attackMultiplier(boardIn[i, x])
+                                attacking[y, x] += attackMultiplier(boardIn[i, x])
                         elif wBn == wBo:
                             protected[i, x] += protectionMultiplier(boardIn[i, x])
                             protecting[y, x] += protectionMultiplier(boardIn[i, x])
                         else:
-                            moveList.append(Move(x, y, x, i, wBo))
+                            if checkKing(x, i, boardIn, wBo):
+                                moveList.append(Move(x, y, x, i, wBo))
                     if x < 7:
                         i = x + 1
                         wBn = whiteBlack(boardIn[y, i])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, i, y, wBo))
-                            attacked[y, i] += attackMultiplier(boardIn[y, i])
-                            attacking[y, x] += attackMultiplier(boardIn[y, i])
+                            if checkKing(i, y, boardIn, wBo):
+                                moveList.append(Move(x, y, i, y, wBo))
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
+                                attacking[y, x] += attackMultiplier(boardIn[y, i])
                         elif wBn == wBo:
                             protected[y, i] += protectionMultiplier(boardIn[y, i])
                             protecting[y, x] += protectionMultiplier(boardIn[y, i])
                         else:
-                            moveList.append(Move(x, y, i, y, wBo))
+                            if checkKing(i, y, boardIn, wBo):
+                                moveList.append(Move(x, y, i, y, wBo))
                     if x > 0:
                         i = x - 1
                         wBn = whiteBlack(boardIn[y, i])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, i, y, wBo))
-                            attacked[y, i] += attackMultiplier(boardIn[y, i])
-                            attacking[y, x] += attackMultiplier(boardIn[y, i])
+                            if checkKing(i, y, boardIn, wBo):
+                                moveList.append(Move(x, y, i, y, wBo))
+                                attacked[y, i] += attackMultiplier(boardIn[y, i])
+                                attacking[y, x] += attackMultiplier(boardIn[y, i])
                         elif wBn == wBo:
                             protected[y, i] += protectionMultiplier(boardIn[y, i])
                             protecting[y, x] += protectionMultiplier(boardIn[y, i])
                         else:
-                            moveList.append(Move(x, y, i, y, wBo))
+                            if checkKing(i, y, boardIn, wBo):
+                                moveList.append(Move(x, y, i, y, wBo))
 
                 case "b" | "B":
                     if y < 7 and x < 7:
@@ -488,7 +501,6 @@ def moveAnalyzer(boardIn):
                         if whiteBlack(boardIn[y - 1, x]) == 0 and whiteBlack(boardIn[y - 2, x]) == 0:
                             moveList.append(Move(x, y, x, y - 2, wBo))
 
-
     return moveList, [attacked, attacking, protected, protecting]
 
 
@@ -501,18 +513,19 @@ def scoreAnalyzer(boardIn, APIn, moveListIn):
         for x in range(8):
             APCheck = checkAP(APIn, x, y)
             checkSquare = boardIn[y, x]
-            score += (whiteBlack(checkSquare) * APModifierLogic(APCheck) + whiteBlack(checkSquare) * valueMultiplier(checkSquare))
+            score += (whiteBlack(checkSquare) * APModifierLogic(APCheck) + whiteBlack(checkSquare) * valueMultiplier(
+                checkSquare))
             match checkSquare:
                 case "k":
                     if APCheck[0] != 0:
                         blackChecked = True
                 case "p":
-                    score -= 1 * (pawnProgressionModifier*y)
+                    score -= 1 * (pawnProgressionModifier * y)
                 case "K":
                     if APCheck[0] != 0:
                         whiteChecked = True
                 case "P":
-                    score += 1 * (pawnProgressionModifier*(7-y))
+                    score += 1 * (pawnProgressionModifier * (7 - y))
     # print(whiteChecked, blackChecked)
     return score, whiteChecked, blackChecked
 
@@ -539,16 +552,16 @@ def APModifierLogic(APin):  # 0-Attacked, 1-Attacking, 2-Protected, 3-Protecting
     if attacking != 0 and attacked != 0 and protected != 0:
         score += protected + protecting + attacking - attacked
     elif attacking != 0 and attacked == 0:
-        score += protected + protecting + attacking*isolationAttackModifier
+        score += protected + protecting + attacking * isolationAttackModifier
     elif attacking != 0 and attacked != 0 and protected == 0:
         score -= attacking + attacked - protecting
     elif attacking != 0:
         score += attacked + protected + protecting
 
     if attacked != 0 and protected == 0:
-        score -= attacked*isolationAttackModifier
+        score -= attacked * isolationAttackModifier
     if protected != 0 and attacked == 0 and attacking == 0:
-        score += (protected + protecting)*isolationDefendModifier
+        score += (protected + protecting) * isolationDefendModifier
 
     return score
 
@@ -620,6 +633,36 @@ def convertCoordsToNotation(xo, yo, xn, yn):
     return notation
 
 
+def checkKing(x, y, boardIn, wB):
+    flagCheckKing = True
+    stringCheck = "k" if wB == 1 else "K"
+    if x < 7:
+        if boardIn[y, x + 1] == stringCheck:
+            flagCheckKing = False
+        if y < 7:
+            if boardIn[y + 1, x + 1] == stringCheck:
+                flagCheckKing = False
+        if y > 0:
+            if boardIn[y - 1, x + 1] == stringCheck:
+                flagCheckKing = False
+    if x > 0:
+        if boardIn[y, x - 1] == stringCheck:
+            flagCheckKing = False
+        if y < 7:
+            if boardIn[y + 1, x - 1] == stringCheck:
+                flagCheckKing = False
+        if y > 0:
+            if boardIn[y - 1, x - 1] == stringCheck:
+                flagCheckKing = False
+    if y < 7:
+        if boardIn[y + 1, x] == stringCheck:
+            flagCheckKing = False
+    if y > 0:
+        if boardIn[y - 1, x] == stringCheck:
+            flagCheckKing = False
+    return flagCheckKing
+
+
 def convertNotationToCoords(notation):
     temp = []
     for i in notation:
@@ -640,6 +683,10 @@ def alterBoardForMove(moveIn: Move, boardIn):
 
 
 def getBestMove(board, wB, printEnable, depth):
+    depth-1
+    if depth == 0:
+        return
+
     moveList, APArray = moveAnalyzer(board)
 
     if printEnable:
@@ -664,7 +711,7 @@ def getBestMove(board, wB, printEnable, depth):
         print("Check status [Black]:", blackChecked)
 
     bestMove = ""
-    bestScore = -1000*wB
+    bestScore = -1000 * wB
 
     for moveCheck in moveList:
         if moveCheck.wB == wB:
@@ -674,7 +721,7 @@ def getBestMove(board, wB, printEnable, depth):
             newScore, newWC, newBC = scoreAnalyzer(newBoard, newAP, newMovelist)
 
             if printEnable:
-                #print(wB, newWC, newBC)
+                # print(wB, newWC, newBC)
                 if wB == WHITE:
                     print(moveCheck, np.round(newScore, 3), newWC)
                 else:

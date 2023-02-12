@@ -34,10 +34,10 @@ while True:
 
     if playingAs == WHITE:
         print("\nYour best move as white would be: ")
-        print(GameAnalyzer.getBestMove(board, WHITE, printEnable=True, depth=1))
+        print(GameAnalyzer.getBestMove(board, WHITE, printEnable=True, depth=2))
     else:
         print("\nYour best move as black would be: ")
-        print(GameAnalyzer.getBestMove(board, BLACK, printEnable=True, depth=1))
+        print(GameAnalyzer.getBestMove(board, BLACK, printEnable=True, depth=2))
 
 # moveList, APArray = GameAnalyzer.moveAnalyzer(board)
 #
