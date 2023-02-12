@@ -166,9 +166,10 @@ def moveAnalyzer(boardIn):
                         yn = y + 1
                         wBn = whiteBlack(boardIn[yn, xn])
                         if wBn == -1 * wBo:
-                            moveList.append(Move(x, y, xn, yn, wBo))
-                            attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
-                            attacking[y, x] += attackMultiplier(boardIn[yn, xn])
+                            if boardIn[yn, xn] != ("k" or "K"):
+                                moveList.append(Move(x, y, xn, yn, wBo))
+                                attacked[yn, xn] += attackMultiplier(boardIn[yn, xn])
+                                attacking[y, x] += attackMultiplier(boardIn[yn, xn])
                         elif wBn == wBo:
                             protected[yn, xn] += protectionMultiplier(boardIn[yn, xn])
                             protecting[y, x] += protectionMultiplier(boardIn[yn, xn])
@@ -675,13 +676,13 @@ def getBestMove(board, wB, printEnable, depth):
             if printEnable:
                 #print(wB, newWC, newBC)
                 if wB == WHITE:
-                    print(moveCheck, np.round(newScore, 3))
+                    print(moveCheck, np.round(newScore, 3), newWC)
                 else:
-                    print(moveCheck, np.round(newScore, 3))
+                    print(moveCheck, np.round(newScore, 3), newBC)
                 # print("Old board:", board)
                 # print("New board:", newBoard)
 
-            if whiteChecked and wB == WHITE:
+            if wB == WHITE:
                 if not newWC:
                     if newScore > bestScore and wB == WHITE:
                         bestScore = newScore
@@ -690,7 +691,7 @@ def getBestMove(board, wB, printEnable, depth):
                         bestScore = newScore
                         bestMove = moveCheck
 
-            elif blackChecked and wB == BLACK:
+            elif wB == BLACK:
                 if not newBC:
                     if newScore > bestScore and wB == WHITE:
                         bestScore = newScore
