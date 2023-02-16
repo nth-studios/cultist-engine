@@ -682,10 +682,13 @@ def alterBoardForMove(moveIn: Move, boardIn):
     return boardOut
 
 
-def getBestMove(board, wB, printEnable, depth):
-    depth-1
+def getScore(board, wB, printEnable, depth):
     if depth == 0:
         return
+
+
+
+def getBestMove(board, wB, printEnable, depth):
 
     moveList, APArray = moveAnalyzer(board)
 
@@ -712,13 +715,18 @@ def getBestMove(board, wB, printEnable, depth):
 
     bestMove = ""
     bestScore = -1000 * wB
-
+    averageScore = 0
     for moveCheck in moveList:
         if moveCheck.wB == wB:
 
             newBoard = alterBoardForMove(moveCheck, board)
             newMovelist, newAP = moveAnalyzer(newBoard)
-            newScore, newWC, newBC = scoreAnalyzer(newBoard, newAP, newMovelist)
+            tempScore, newWC, newBC = scoreAnalyzer(newBoard, newAP, newMovelist)
+
+            if depth > 1:
+                tempMove, newScore, tempAvg = getBestMove(newBoard, (wB*-1), False, depth-1)
+            else:
+                newScore = tempScore
 
             if printEnable:
                 # print(wB, newWC, newBC)
@@ -761,6 +769,6 @@ def getBestMove(board, wB, printEnable, depth):
             print("\nYour best is: ")
             print(bestMove)
             print(" with a score of ")
-            print(bestScore)
+            print(np.round(bestScore, 2))
 
-    return bestMove
+    return bestMove, bestScore, averageScore
